@@ -20,19 +20,20 @@ datasets/generic/generic_test.json
 datasets/generic/generic_train.json
 <!-- [![Distilling-step-by-step](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg) -->
 
-## Install
-
+## Environment Setup
+- Setup Conda environment:
 ```
-git clone https://github.com/dermatologist/distilling-step-by-step.git
-cd distilling-step-by-step
-pip install -e .
-
+conda create --name distill python=3.10.6 -y
+conda activate distill
+conda install -y pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.3 -c pytorch
+pip install git+https://github.com/huggingface/transformers@v4.24.0 datasets sentencepiece protobuf==3.20.* tensorboardX
+```
+- Extract datasets to `datasets/`:
+```
+unzip datasets.zip
 ```
 
 ## Command Usages
-```
-distillm
-```
 #### Args usages
 - `--from_pretrained`: `google/t5-v1_1-small`, `google/t5-v1_1-base`, `google/t5-v1_1-large`, `google/t5-v1_1-xxl`
 - `--dataset`: `esnli`, `anli1`, `cqa`, `svamp`
@@ -54,10 +55,27 @@ distillm
 
 
 #### Example usages
+- Standard finetuning:
+```python
+python run.py --from_pretrained google/t5-v1_1-base --dataset cqa --model_type standard --label_type gt --batch_size 64
+```
+
+
+- Distilling step-by-step with `GT label` and `PaLM rationale`:
+```python
+python run.py --from_pretrained google/t5-v1_1-base --dataset cqa --model_type task_prefix --label_type gt --llm palm --alpha 0.5 --batch_size 64
+```
+
+
+- Standard distillation:
+```python
+python run.py --from_pretrained google/t5-v1_1-base --dataset cqa --model_type standard --label_type llm --batch_size 64
+```
+
 
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
-distillm --from_pretrained google/t5-v1_1-base --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 64
+python run.py --from_pretrained google/t5-v1_1-base --dataset cqa --model_type task_prefix --label_type llm --llm palm --alpha 0.5 --batch_size 64
 ```
 
 ## Cite
