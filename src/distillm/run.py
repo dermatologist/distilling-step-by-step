@@ -209,7 +209,7 @@ def run(args):
     train_and_evaluate(args, args.run, tokenizer, tokenized_datasets, compute_metrics)
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--subsample', type=float, default=1.0)
@@ -236,3 +236,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     run(args)
+
+if __name__ == '__main__':
+    main()
+
+
