@@ -25,9 +25,11 @@ from .train_utils import train_and_evaluate
 
 def run(args):
     #### Prepare datasets
+
+    #! fork
     if args.dataset == 'generic':
         dataset_loader = GenericDatasetLoader()
-        
+
     elif args.dataset == 'cqa':
         dataset_loader = CQADatasetLoader()
     elif args.dataset == 'svamp':
@@ -51,9 +53,13 @@ def run(args):
             'test': datasets_svamp['test']
         })
     else:
+        #! fork
         datasets = dataset_loader.load_from_json()
 
     if args.llm is None:
+        pass
+    #! fork
+    elif args.llm == 'generic':
         pass
     elif args.llm == 'palm':
         if args.dataset == 'asdiv':
