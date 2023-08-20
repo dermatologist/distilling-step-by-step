@@ -2,6 +2,12 @@
 
 Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes](https://arxiv.org/abs/2305.02301)
 
+## About this fork
+
+This is a fork of the distilling-step-by-step repository with the aim of creating a task-specific LLM distillation framework for healthcare.
+
+[![Distilling-step-by-step](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)
+
 ## Environment Setup
 - Setup Conda environment:
 ```
