@@ -38,8 +38,8 @@ class DatasetLoader(object):
         self.train_batch_idxs = train_batch_idxs
         self.test_batch_idxs = test_batch_idxs
         self.valid_batch_idxs = valid_batch_idxs
-        
-        assert self.split_map is not None    
+
+        assert self.split_map is not None
 
 
     def load_from_source(self):
@@ -67,13 +67,13 @@ class DatasetLoader(object):
             data_files.update({'valid': f'{self.data_root}/{self.dataset_name}/{self.dataset_name}_valid.json',})
 
         datasets = load_dataset('json', data_files=data_files)
-        datasets = self._post_process(datasets) 
+        datasets = self._post_process(datasets)
 
         # subsample training dataset if needed
         num_train = len(datasets['train'])
         idxs = list()
         for idx in self.train_batch_idxs:
-            idxs += range(idx*self.batch_size, (idx+1)*self.batch_size)        
+            idxs += range(idx*self.batch_size, (idx+1)*self.batch_size)
         datasets['train'] = Dataset.from_dict(datasets['train'][[idx for idx in idxs if idx < num_train]])
 
         return datasets
@@ -98,7 +98,7 @@ class DatasetLoader(object):
     def load_gpt_preds(self, split):
         labels = list()
         rationales = list()
-        
+
         with open(f'{self.data_root}/gpt-neox/{self.dataset_name}/{split}.json') as f:
             outputs = json.load(f)
 
@@ -123,6 +123,46 @@ class DatasetLoader(object):
         raise NotImplementedError
 
 
+class GenericDatasetLoader(DatasetLoader):
+    def __init__(self):
+        dataset_name = 'generic'
+        source_dataset_name = None
+        dataset_version = 'v1.0'
+        has_valid = False
+        split_map = {
+            'train': 'train',
+            'test': 'test',
+        }
+        batch_size = 1000
+        train_batch_idxs = range(10)
+        test_batch_idxs = range(2)
+
+
+        super().__init__(dataset_name, source_dataset_name, dataset_version, has_valid, split_map,
+                 batch_size, train_batch_idxs, test_batch_idxs, valid_batch_idxs=None)
+
+
+    # No post processing needed
+    # datasets have input and label columns
+    def _post_process(self, datasets):
+        """_summary_
+
+        Args:
+            datasets (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        return datasets
+
+
+    def _parse_llm_output(self, output):
+        raise NotImplementedError
+
+
+    def _parse_gpt_output(self, output):
+        raise NotImplementedError
+
 class CQADatasetLoader(DatasetLoader):
     def __init__(self):
         dataset_name = 'cqa'
@@ -142,7 +182,7 @@ class CQADatasetLoader(DatasetLoader):
 
 
     def _post_process(self, datasets):
-        
+
         def prepare_input(example):
             question = example['question']
             c_0 = example['choices'][0]
@@ -175,7 +215,7 @@ class CQADatasetLoader(DatasetLoader):
             label = label if label[-1]!='.' else label[:-1]
         except:
             label = ' '
-        
+
         return rationale, label
 
 
@@ -195,7 +235,7 @@ class CQADatasetLoader(DatasetLoader):
             label = label if label[-1]!='.' else label[:-1]
         except:
             label = ' '
-        
+
         return rationale, label
 
 
@@ -245,7 +285,7 @@ class SVAMPDatasetLoader(DatasetLoader):
         })
 
         return datasets
-        
+
 
     def _post_process(self, datasets):
         return datasets
@@ -260,7 +300,7 @@ class SVAMPDatasetLoader(DatasetLoader):
             rationale = ' '
             label = ' '
             return rationale, label
-            
+
         rationale = rationale.rstrip()
         try:
             label = re.search(r'\(.*\)', label).group(0)
@@ -278,7 +318,7 @@ class SVAMPDatasetLoader(DatasetLoader):
             rationale = ' '
             label = ' '
             return rationale, label
-            
+
         rationale = rationale.rstrip()
         try:
             label = re.search(r'\(.*\)', label).group(0)
@@ -307,7 +347,7 @@ class ASDivDatasetLoader(DatasetLoader):
 
     def load_from_source(self):
         raise NotImplementedError
-        
+
 
     def _post_process(self, datasets):
 
@@ -333,7 +373,7 @@ class ASDivDatasetLoader(DatasetLoader):
             rationale = ' '
             label = ' '
             return rationale, label
-            
+
         rationale = rationale.rstrip()
         try:
             label = re.search(r'\(.*\)', label).group(0)
@@ -373,7 +413,7 @@ class ESNLIDatasetLoader(DatasetLoader):
 
 
     def _post_process(self, datasets):
-        
+
         def prepare_input(example):
             if example['label'] == 0:
                 example['label'] = 'entailment'
@@ -399,7 +439,7 @@ class ESNLIDatasetLoader(DatasetLoader):
 
         return rationale, label
 
-    
+
     def _parse_gpt_output(self, output):
         rationale = output.split("Answer:")[0].rstrip().lstrip()
         try:
@@ -418,8 +458,8 @@ class ANLIDatasetLoader(DatasetLoader):
                  batch_size, train_batch_idxs, test_batch_idxs, valid_batch_idxs=valid_batch_idxs)
 
     def _post_process(self, datasets):
-        
-        def label_idx2text(example):            
+
+        def label_idx2text(example):
             if example['label'] == 0:
                 example['label'] = 'entailment'
             elif example['label'] == 1:
@@ -440,7 +480,7 @@ class ANLIDatasetLoader(DatasetLoader):
         except:
             rationale = ''
             label = ''
-        
+
         rationale = rationale.rstrip()
         label = label.lstrip()[:-1]
 
@@ -457,7 +497,7 @@ class ANLIDatasetLoader(DatasetLoader):
                 rationale = ''
                 label = ''
 
-        
+
         rationale = rationale.rstrip()
         label = label.lstrip()[:-1]
 

@@ -18,14 +18,19 @@ import argparse
 from datasets import DatasetDict, concatenate_datasets
 from transformers import AutoTokenizer
 
-from data_utils import CQADatasetLoader, SVAMPDatasetLoader, ESNLIDatasetLoader, ANLI1DatasetLoader, ASDivDatasetLoader
-from metrics import compute_text_acc, compute_equation_acc, compute_metrics_text, compute_metrics_equation, compute_metrics_text_aux, compute_metrics_equation_aux
-from train_utils import train_and_evaluate
+from .data_utils import GenericDatasetLoader, CQADatasetLoader, SVAMPDatasetLoader, ESNLIDatasetLoader, ANLI1DatasetLoader, ASDivDatasetLoader
+from .metrics import compute_text_acc, compute_equation_acc, compute_metrics_text, compute_metrics_equation, compute_metrics_text_aux, compute_metrics_equation_aux
+from .train_utils import train_and_evaluate
 
 
 def run(args):
     #### Prepare datasets
-    if args.dataset == 'cqa':
+
+    #! fork
+    if args.dataset == 'generic':
+        dataset_loader = GenericDatasetLoader()
+
+    elif args.dataset == 'cqa':
         dataset_loader = CQADatasetLoader()
     elif args.dataset == 'svamp':
         dataset_loader = SVAMPDatasetLoader()
@@ -48,9 +53,13 @@ def run(args):
             'test': datasets_svamp['test']
         })
     else:
+        #! fork
         datasets = dataset_loader.load_from_json()
 
     if args.llm is None:
+        pass
+    #! fork
+    elif args.llm == 'generic':
         pass
     elif args.llm == 'palm':
         if args.dataset == 'asdiv':
