@@ -4,6 +4,8 @@ Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models wi
 
 ## About this fork
 
+**Work in progress**
+
 This is a fork of the distilling-step-by-step repository with the aim of creating a task-specific LLM distillation framework for healthcare.
 
 [![Distilling-step-by-step](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)
