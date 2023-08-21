@@ -1,4 +1,5 @@
-datasets
+logs/*
+ckpts/*
 # Temporary and binary files
 *~
 *.py[cod]

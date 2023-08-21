@@ -35,10 +35,11 @@ distillm
 ```
 #### Args usages
 - `--from_pretrained`: `google/t5-v1_1-small`, `google/t5-v1_1-base`, `google/t5-v1_1-large`, `google/t5-v1_1-xxl`
-- `--dataset`: `esnli`, `anli1`, `cqa`, `svamp`
+- `--dataset`: `esnli`, `anli1`, `cqa`, `svamp`, `generic`
 - `--label_type`:
   - `--label_type gt`: Use GT label for training
   - `--label_type llm`: Use LLM predicted label for training
+  - `--label_type generic`: Use provided label for training
 - `--alpha`: Task weight for multi-task training. Loss = alpha * label_prediction_loss + (1 - alpha) * rationale_generation_loss
   - `--alpha 0.5`: recommended
 - `--batch_size`: Batch size
@@ -57,7 +58,7 @@ distillm
 
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
-distillm --from_pretrained google/t5-v1_1-small --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 64
+distillm --from_pretrained google/t5-v1_1-small --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 4 --max_steps 100 --eval_steps 2 --no_log
 ```
 
 ## Cite
