@@ -79,8 +79,12 @@ def run(args):
     else:
         raise ValueError
 
-    print(args.llm)
-    if args.llm is not None and args.llm != 'generic':
+    if args.llm == 'generic':
+        datasets['train'] = datasets['train'].add_column('llm_label', datasets['train']['label'])
+        datasets['test'] = datasets['test'].add_column('llm_label', datasets['test']['label'])
+        datasets['train'] = datasets['train'].add_column('llm_rationale', datasets['train']['rationale'])
+        datasets['test'] = datasets['test'].add_column('llm_rationale', datasets['test']['rationale'])
+    elif args.llm is not None:
         datasets['train'] = datasets['train'].add_column('llm_label', train_llm_labels)
         datasets['test'] = datasets['test'].add_column('llm_label', test_llm_labels)
         datasets['train'] = datasets['train'].add_column('llm_rationale', train_llm_rationales)

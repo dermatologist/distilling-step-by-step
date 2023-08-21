@@ -1,21 +1,15 @@
 {
     "input": "Patient with name John Smith",
-    "llm_label": "Patient?given=John&family=Smith",
-    "llm_rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith.",
     "label": "Patient?given=John&family=Smith",
     "rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith."
 }
 {
     "input": "Patient with name John Smith",
-    "llm_label": "Patient?given=John&family=Smith",
-    "llm_rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith.",
     "label": "Patient?given=John&family=Smith",
     "rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith."
 }
 {
     "input": "Patient with name John Smith",
-    "llm_label": "Patient?given=John&family=Smith",
-    "llm_rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith.",
     "label": "Patient?given=John&family=Smith",
     "rationale": "The Patient's first name is John and last name is Smith. FHIR Patient resource takes the parameters given and family to search for a patient. The parameter given is John and family is Smith."
 }
