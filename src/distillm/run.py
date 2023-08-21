@@ -79,7 +79,8 @@ def run(args):
     else:
         raise ValueError
 
-    if args.llm is not None:
+    print(args.llm)
+    if args.llm is not None and args.llm != 'generic':
         datasets['train'] = datasets['train'].add_column('llm_label', train_llm_labels)
         datasets['test'] = datasets['test'].add_column('llm_label', test_llm_labels)
         datasets['train'] = datasets['train'].add_column('llm_rationale', train_llm_rationales)
