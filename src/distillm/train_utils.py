@@ -106,3 +106,4 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
 
 
     trainer.train()
+    trainer.save_model(output_dir)
