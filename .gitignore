@@ -1,3 +1,4 @@
+logs/*
 # Temporary and binary files
 *~
 *.py[cod]
