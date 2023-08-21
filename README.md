@@ -57,7 +57,7 @@ distillm
 
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
-distillm --from_pretrained google/t5-v1_1-base --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 64
+distillm --from_pretrained google/t5-v1_1-small --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 64
 ```
 
 ## Cite
