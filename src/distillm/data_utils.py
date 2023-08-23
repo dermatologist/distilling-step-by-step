@@ -17,6 +17,7 @@ import argparse
 import re
 import json
 import numpy as np
+import gcsfs
 
 from datasets import Dataset, DatasetDict, load_dataset
 
@@ -57,11 +58,21 @@ class DatasetLoader(object):
             datasets[v].to_json(f'{self.data_root}/{self.dataset_name}/{self.dataset_name}_{k}.json')
 
 
-    def load_from_json(self):
+    def load_from_json(self, gcs_project=None, gcs_path=None):
         data_files = {
             'train': f'{self.data_root}/{self.dataset_name}/{self.dataset_name}_train.json',
             'test': f'{self.data_root}/{self.dataset_name}/{self.dataset_name}_test.json',
         }
+
+        # load from gcs if specified
+        if gcs_project is not None and gcs_path is not None:
+            fs = gcsfs.GCSFileSystem(project=gcs_project)
+            with fs.open(f'{gcs_project}_train.json' , 'rb') as fi:
+                with open(data_files['train'], 'wb') as fo:
+                    fo.write(fi.read())
+            with fs.open(f'{gcs_project}_test.json' , 'rb') as fi:
+                with open(data_files['test'], 'wb') as fo:
+                    fo.write(fi.read())
 
         if self.has_valid:
             data_files.update({'valid': f'{self.data_root}/{self.dataset_name}/{self.dataset_name}_valid.json',})
