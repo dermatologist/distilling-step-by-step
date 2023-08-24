@@ -6,7 +6,7 @@ Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models wi
 
 **Work in progress. DO NOT USE**
 
-This is a fork of the distilling-step-by-step repository with the aim of creating a task-specific LLM distillation framework for healthcare. The data should be in the format (This will change):
+This is a fork of the distilling-step-by-step repository with the aim of creating a task-specific LLM distillation framework for healthcare. The data should be in the format (This may change):
 
 ```
 {
@@ -16,8 +16,9 @@ This is a fork of the distilling-step-by-step repository with the aim of creatin
 }
 ```
 in the path:
-datasets/generic/generic_test.json
-datasets/generic/generic_train.json
+* datasets/generic/generic_test.json
+* datasets/generic/generic_train.json
+* WIP: GCS support
 <!-- [![Distilling-step-by-step](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg) -->
 
 ## Install
@@ -52,13 +53,26 @@ distillm
   - `standard`: Standard finetuning (`--label_type gt`) or distillation (`--label_type llm`)
   - `task_prefix`: Distilling step-by-step
 - `--parallelize`: Model parallelism
+- `--output_dir`: The directory for saving the distilled model
+- `--gcs_project`: The GCP project name
+- `--gcs_path`: The GCS path. **_train.json** and **_test.json** will be added to the path
 
 
 #### Example usages
 
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
-distillm --from_pretrained google/t5-v1_1-small --dataset generic --model_type task_prefix --label_type llm --llm generic --alpha 0.5 --batch_size 4 --max_steps 100 --eval_steps 2 --no_log --output_dir output
+distillm  --from_pretrained google/t5-v1_1-small \
+          --dataset generic \
+          --model_type task_prefix \
+          --label_type llm \
+          --llm generic \
+          --alpha 0.5 \
+          --batch_size 4 \
+          --max_steps 100 \
+          --eval_steps 2 \
+          --no_log \
+          --output_dir output
 ```
 
 ## Cite
@@ -71,3 +85,6 @@ If you find this repository useful, please consider citing:
   year={2023}
 }
 ```
+
+## This fork
+* [Contact me](https://nuchange.ca/contact) for information related to this fork.
