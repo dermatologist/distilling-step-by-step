@@ -34,6 +34,20 @@ pip install -e .
 ```
 distillm
 ```
+
+#### Example usages
+
+- Distilling step-by-step with `PaLM label` and `PaLM rationale`:
+```python
+distillm  --from_pretrained google/t5-v1_1-small \
+          --alpha 0.5 \
+          --batch_size 4 \
+          --max_steps 100 \
+          --eval_steps 2 \
+          --no_log \
+          --output_dir output
+```
+
 #### Args usages
 - `--from_pretrained`: `google/t5-v1_1-small`, `google/t5-v1_1-base`, `google/t5-v1_1-large`, `google/t5-v1_1-xxl`
 - `--dataset`: `esnli`, `anli1`, `cqa`, `svamp`, `generic`
@@ -56,25 +70,6 @@ distillm
 - `--output_dir`: The directory for saving the distilled model
 - `--gcs_project`: The GCP project name
 - `--gcs_path`: The GCS path. **_train.json** and **_test.json** will be added to the path
-
-
-#### Example usages
-
-- Distilling step-by-step with `PaLM label` and `PaLM rationale`:
-```python
-distillm  --from_pretrained google/t5-v1_1-small \
-          --dataset generic \
-          --model_type task_prefix \
-          --label_type llm \
-          --llm generic \
-          --alpha 0.5 \
-          --batch_size 4 \
-          --max_steps 100 \
-          --eval_steps 2 \
-          --no_log \
-          --output_dir output
-```
-
 ## Cite
 If you find this repository useful, please consider citing:
 ```bibtex
@@ -88,3 +83,9 @@ If you find this repository useful, please consider citing:
 
 ## This fork
 * [Contact me](https://nuchange.ca/contact) for information related to this fork.
+
+## Blog posts
+* [My blog post](https://nuchange.ca/2023/08/distilling-llms-to-small-task-specific-models.html)
+* [Distilling Step-by-Step : Paper Review](https://vijayasriiyer.medium.com/distilling-step-by-step-paper-review-1937cf4ced2f)
+* [Distilling with LLM-Generated Rationales Yields Outperformance in Task-Specific Fine-tuning!](https://medium.com/mlearning-ai/distilling-with-llm-generated-rationales-yields-outperformance-in-task-specific-fine-tuning-f1a08ff8ffa9)
+* [E4 : Distilling Step-by-Step](https://medium.com/papers-i-found/e4-distilling-step-by-step-fc32874f1245)
