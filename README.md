@@ -19,6 +19,7 @@ in the path:
 * datasets/generic/generic_test.json
 * datasets/generic/generic_train.json
 * WIP: GCS support
+* **You can use a "teacher LLM" to generate labels and rationale.**
 <!-- [![Distilling-step-by-step](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg)](https://github.com/dermatologist/distilling-step-by-step/blob/develop/notes/arch.drawio.svg) -->
 
 ## Install
