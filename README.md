@@ -83,7 +83,7 @@ If you find this repository useful, please consider citing:
 ```
 
 ## This fork
-* [Contact me](https://nuchange.ca/contact) for information related to this fork.
+* [Contact ](https://nuchange.ca/contact) [Bell Eapen](https://nuchange.ca) | [![Twitter Follow](https://img.shields.io/twitter/follow/beapen?style=social)](https://twitter.com/beapen) for information related to this fork.
 
 ## Blog posts
 * [My blog post](https://nuchange.ca/2023/08/distilling-llms-to-small-task-specific-models.html)
