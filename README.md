@@ -2,7 +2,14 @@
 
 Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models with Less Training Data and Smaller Model Sizes](https://arxiv.org/abs/2305.02301)
 
-## About this fork
+## Changes in this fork
+* [x] Add support for GCS
+* [x] Add command line invocation with arguments
+* [ ] Add support for hosting distilled models using docker
+* [ ] Add support for hosting models as vertex AI endpoints
+* [ ] Add support for hosting models as TF Serving endpoints
+* [ ] Add [kedro](https://kedro.readthedocs.io/en/stable/) pipeline for distillation
+* [ ] Add support for [vertex AI](https://cloud.google.com/vertex-ai/docs) pipelines
 
 **Work in progress.**
 
@@ -37,7 +44,6 @@ distillm
 ```
 
 #### Example usages
-
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
 distillm  --from_pretrained google/t5-v1_1-small \
@@ -71,6 +77,7 @@ distillm  --from_pretrained google/t5-v1_1-small \
 - `--output_dir`: The directory for saving the distilled model
 - `--gcs_project`: The GCP project name
 - `--gcs_path`: The GCS path. **_train.json** and **_test.json** will be added to the path
+
 ## Cite
 If you find this repository useful, please consider citing:
 ```bibtex
