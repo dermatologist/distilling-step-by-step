@@ -33,4 +33,4 @@ EXPOSE 8080
 ENTRYPOINT [ "python3" ]
 
 # Run main.py when the container launches
-CMD [ "main.py" ]
+CMD [ "app.py" ]
