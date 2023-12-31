@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Copy necessary files to the container
 COPY requirements.txt .
-COPY main.py .
+COPY app.py .
 COPY ../models ./models
 
 # Create a virtual environment in the container
@@ -26,3 +26,11 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 # Install Python dependencies from the requirements file
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Make port 6000 available to the world outside this container
+EXPOSE 8080
+
+ENTRYPOINT [ "python3" ]
+
+# Run main.py when the container launches
+CMD [ "main.py" ]
