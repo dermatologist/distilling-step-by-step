@@ -16,7 +16,7 @@ WORKDIR /app
 # Copy necessary files to the container
 COPY requirements.txt .
 COPY main.py .
-COPY download_models.py .
+COPY ../models ./models
 
 # Create a virtual environment in the container
 RUN python3 -m venv .venv
@@ -25,7 +25,4 @@ RUN python3 -m venv .venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Install Python dependencies from the requirements file
-RUN pip install --no-cache-dir -r requirements.txt && \
-    # Get the models from Hugging Face to bake into the container
-    python3 download_models.py
-
+RUN pip install --no-cache-dir -r requirements.txt
