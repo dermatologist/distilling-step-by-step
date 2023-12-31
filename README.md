@@ -5,6 +5,7 @@ Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models wi
 ## Changes in this fork
 * [x] Add support for GCS
 * [x] Add command line invocation with arguments
+* [ ] Add support for generating rationales using [MEDPrompt](https://github.com/dermatologist/medprompt)
 * [ ] Add support for hosting distilled models using docker
 * [ ] Add support for hosting models as vertex AI endpoints
 * [ ] Add support for hosting models as TF Serving endpoints
