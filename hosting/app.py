@@ -11,9 +11,14 @@ router = APIRouter()
 async def home():
   return {"message": "Machine Learning service"}
 
-@router.post("/serve")
+@router.post("/predict")
 async def data(data: dict):
     return {"message": "Data received"}
+
+@router.get("/health")
+async def health():
+  return {"message": "Model is healthy"}
+
 
 app.include_router(router)
 
