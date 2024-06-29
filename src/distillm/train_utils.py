@@ -18,7 +18,7 @@ import shutil
 import logging
 
 from transformers import Seq2SeqTrainingArguments, Seq2SeqTrainer
-from transformers import T5ForConditionalGeneration
+from transformers import AutoModelForSeq2SeqLM
 from transformers import DataCollatorForSeq2Seq
 from transformers.trainer_utils import set_seed
 
@@ -31,7 +31,8 @@ def get_config_dir(args):
 def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics):
     set_seed(run)
 
-    model = T5ForConditionalGeneration.from_pretrained(args.from_pretrained)
+    # Model type should be one of BartConfig, BigBirdPegasusConfig, BlenderbotConfig, BlenderbotSmallConfig, EncoderDecoderConfig, FSMTConfig, GPTSanJapaneseConfig, LEDConfig, LongT5Config, M2M100Config, MarianConfig, MBartConfig, MT5Config, MvpConfig, NllbMoeConfig, PegasusConfig, PegasusXConfig, PLBartConfig, ProphetNetConfig, SeamlessM4TConfig, SwitchTransformersConfig, T5Config, UMT5Config, XLMProphetNetConfig.
+    model = AutoModelForSeq2SeqLM.from_pretrained(args.from_pretrained, torch_dtype="auto", trust_remote_code=True)
 
     if args.parallelize:
         model.parallelize()
