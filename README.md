@@ -79,7 +79,8 @@ distillm  --from_pretrained google/t5-v1_1-small \
           --batch_size 4 \
           --max_steps 10 \
           --eval_steps 2 \
-          --no_log
+          --no_log \
+          --dataset generic 
 ```
 
 #### Args usages

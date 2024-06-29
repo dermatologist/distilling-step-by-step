@@ -237,7 +237,7 @@ def main():
     parser.add_argument('--bf16', action='store_true')
     parser.add_argument('--no_log', action='store_true')
     parser.add_argument('--output_rationale', action='store_true')
-    parser.add_argument('--output_dir', type=str, default='outputs')
+    parser.add_argument('--output_dir', type=str, default='models')
 
     args = parser.parse_args()
 
