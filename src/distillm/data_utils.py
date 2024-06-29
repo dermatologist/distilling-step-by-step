@@ -549,6 +549,8 @@ if __name__ == '__main__':
         dataset_loader = ESNLIDatasetLoader()
     elif args.dataset == 'anli1':
         dataset_loader = ANLI1DatasetLoader()
+    elif args.dataset == 'generic':
+        dataset_loader = GenericDatasetLoader()
 
     datasets = dataset_loader.load_from_source()
     dataset_loader.to_json(datasets)
