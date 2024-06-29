@@ -56,7 +56,7 @@ distillm  --from_pretrained google/t5-v1_1-small \
           --eval_steps 2 \
           --no_log \
           --dataset generic \
-          --output_dir output
+          --output_dir models
 ```
 
 #### Args usages
