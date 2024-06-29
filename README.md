@@ -16,6 +16,7 @@ Code for paper [Distilling Step-by-Step! Outperforming Larger Language Models wi
 
 This is a fork of the distilling-step-by-step repository with the aim of creating a task-specific LLM distillation framework for healthcare. The data should be in the format (This may change):
 
+## generic --dataset
 ```
 {
   "input": "The input here",
@@ -46,17 +47,39 @@ pip install -e .
 distillm
 ```
 
+#### Defaults
+
+    '--dataset', type=str, required=True, default='generic')
+    '--subsample', type=float, default=1.0)
+    '--alpha', type=float, default=0.5)
+    '--max_steps', type=int, default=10000)
+    '--eval_steps', type=int, default=250)
+    '--batch_size', type=int, default=64)
+    '--optimizer_name', type=str, default='AdamW')
+    '--lr', type=float, default=5e-5)
+    '--run', type=int, default=0)
+    '--from_pretrained', type=str, default='google/t5-v1_1-base')
+    '--label_type', type=str, default='llm')
+    '--llm', type=str, default='generic') # palm, gpt, generic
+    '--max_input_length', type=int, default=1024)
+    '--grad_steps', type=int, default=1)
+    '--local_rank', type=int, default=-1)
+    '--gen_max_len', type=int, default=64)
+    '--parallelize', action='store_true')
+    '--model_type', type=str, default='task_prefix')
+    '--bf16', action='store_true')
+    '--no_log', action='store_true')
+    '--output_rationale', action='store_true')
+    '--output_dir', type=str, default='models')
+
 #### Example usages
 - Distilling step-by-step with `PaLM label` and `PaLM rationale`:
 ```python
 distillm  --from_pretrained google/t5-v1_1-small \
-          --alpha 0.5 \
           --batch_size 4 \
-          --max_steps 100 \
+          --max_steps 10 \
           --eval_steps 2 \
-          --no_log \
-          --dataset generic \
-          --output_dir models
+          --no_log
 ```
 
 #### Args usages
