@@ -227,6 +227,7 @@ def main():
     parser.add_argument('--run', type=int, default=0)
     parser.add_argument('--from_pretrained', type=str, default='google/t5-v1_1-base')
     parser.add_argument('--label_type', type=str, default='llm')
+    parser.add_argument('--training_type', type=str, default='seq2seq') # seq2seq or causal
     parser.add_argument('--llm', type=str, default='generic')
     parser.add_argument('--max_input_length', type=int, default=1024)
     parser.add_argument('--grad_steps', type=int, default=1)

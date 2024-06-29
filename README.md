@@ -67,6 +67,7 @@ distillm
     '--gen_max_len', type=int, default=64)
     '--parallelize', action='store_true')
     '--model_type', type=str, default='task_prefix')
+    '--training_type', type=str, default='seq2seq') # seq2seq, causal
     '--bf16', action='store_true')
     '--no_log', action='store_true')
     '--output_rationale', action='store_true')
@@ -80,7 +81,7 @@ distillm  --from_pretrained google/t5-v1_1-small \
           --max_steps 10 \
           --eval_steps 2 \
           --no_log \
-          --dataset generic 
+          --dataset generic
 ```
 
 #### Args usages
