@@ -33,6 +33,8 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
 
     if args.training_type == 'causal':
         print("Training causal model")
+        if 'gpt2' in args.from_pretrained:
+            tokenizer.pad_token ="<pad>" #tokenizer.eos_token
         model = AutoModelForCausalLM.from_pretrained(args.from_pretrained, torch_dtype="auto", trust_remote_code=True)
     else:
         # Model type should be one of BartConfig, BigBirdPegasusConfig, BlenderbotConfig, BlenderbotSmallConfig, EncoderDecoderConfig, FSMTConfig, GPTSanJapaneseConfig, LEDConfig, LongT5Config, M2M100Config, MarianConfig, MBartConfig, MT5Config, MvpConfig, NllbMoeConfig, PegasusConfig, PegasusXConfig, PLBartConfig, ProphetNetConfig, SeamlessM4TConfig, SwitchTransformersConfig, T5Config, UMT5Config, XLMProphetNetConfig.
@@ -60,24 +62,14 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
         print("Using causal training")
         training_args = TrainingArguments(
             output_dir,
-            remove_unused_columns = False,
-            evaluation_strategy = 'steps',
-            eval_steps=args.eval_steps,
-            save_strategy='no',
-            save_steps=args.eval_steps,
-            logging_dir=logging_dir,
-            logging_strategy=logging_strategy,
-            logging_steps=args.eval_steps,
-            max_steps=args.max_steps,
+            evaluation_strategy="steps",
+            save_strategy="no",
             learning_rate=args.lr,
-            gradient_accumulation_steps=args.grad_steps,
+            num_train_epochs=args.max_steps,
+            weight_decay=0.01,
+            push_to_hub=False,
             per_device_train_batch_size=args.batch_size,
             per_device_eval_batch_size=args.batch_size,
-            seed=run,
-            local_rank=args.local_rank,
-            bf16=args.bf16,
-            auto_find_batch_size=True,
-            prediction_loss_only=False,
         )
     else:
         training_args = Seq2SeqTrainingArguments(
