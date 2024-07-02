@@ -62,12 +62,13 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
         print("Using causal training")
         training_args = TrainingArguments(
             output_dir,
-            evaluation_strategy="steps",
+            evaluation_strategy="epoch",
+            eval_accumulation_steps=1,
             save_strategy="no",
             learning_rate=args.lr,
             num_train_epochs=args.max_steps,
             weight_decay=0.01,
-            push_to_hub=False,
+            prediction_loss_only=True,
             per_device_train_batch_size=args.batch_size,
             per_device_eval_batch_size=args.batch_size,
         )
