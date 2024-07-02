@@ -78,40 +78,5 @@ class TaskPrefixTrainer(Seq2SeqTrainer):
         )
 
 
-class TaskPrefixCausalTrainer(Trainer):
-    def __init__(self, alpha, output_rationale, **kwargs):
-        super().__init__(**kwargs)
-        self.alpha = alpha
-        self.output_rationale = output_rationale
-
-
-    def compute_loss(self, model, inputs, return_outputs=False):
-        pred_outputs = model(**inputs['pred'])
-        expl_outputs = model(**inputs['expl'])
-
-        loss = self.alpha * pred_outputs.loss + (1. - self.alpha) * expl_outputs.loss
-
-        return (loss, {'pred': pred_outputs, 'expl': expl_outputs}) if return_outputs else loss
-
-
-    def prediction_step(
-        self,
-        model: nn.Module,
-        inputs: Dict[str, Union[torch.Tensor, Any]],
-        prediction_loss_only: bool,
-        ignore_keys: Optional[List[str]] = None
-    ) -> Tuple[Optional[float], Optional[torch.Tensor], Optional[torch.Tensor]]:
-
-        pred_outputs = super().prediction_step(model, inputs['pred'], prediction_loss_only=False, ignore_keys=ignore_keys)
-        if self.output_rationale:
-            expl_outputs = super().prediction_step(model, inputs['expl'], prediction_loss_only=False, ignore_keys=ignore_keys)
-        else:
-            expl_outputs = pred_outputs # placeholder only
-
-        loss = self.alpha * pred_outputs[0]  + (1 - self.alpha) * expl_outputs[0]
-
-        return (
-            loss,
-            [pred_outputs[1], expl_outputs[1]],
-            [pred_outputs[2], expl_outputs[2]],
-        )
+class CausalTrainer(Trainer):
+    pass

@@ -19,10 +19,10 @@ import logging
 
 from transformers import Seq2SeqTrainingArguments, Seq2SeqTrainer, TrainingArguments, Trainer
 from transformers import AutoModelForSeq2SeqLM, AutoModelForCausalLM
-from transformers import DataCollatorForSeq2Seq
+from transformers import DataCollatorForSeq2Seq, DataCollatorForLanguageModeling
 from transformers.trainer_utils import set_seed
 
-from .model_utils import TaskPrefixDataCollator, TaskPrefixTrainer, TaskPrefixCausalTrainer
+from .model_utils import TaskPrefixDataCollator, TaskPrefixTrainer, CausalTrainer
 
 def get_config_dir(args):
     return f'{args.dataset}/{args.from_pretrained.split("/")[1]}/{args.model_type}/{args.llm}/{args.subsample}/{args.label_type}/{args.alpha}/{args.max_input_length}/{args.grad_steps*args.batch_size}/{args.optimizer_name}/{args.lr}'
@@ -103,12 +103,16 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
             prediction_loss_only=False,
         )
 
-    if args.model_type == 'task_prefix':
-        data_collator = TaskPrefixDataCollator(tokenizer=tokenizer, model=model)
-    elif args.model_type == 'standard':
-        data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
+
+    if args.training_type == 'causal':
+        data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm=False)
     else:
-        raise ValueError
+        if args.model_type == 'task_prefix':
+            data_collator = TaskPrefixDataCollator(tokenizer=tokenizer, model=model)
+        elif args.model_type == 'standard':
+            data_collator = DataCollatorForSeq2Seq(tokenizer=tokenizer, model=model)
+        else:
+            raise ValueError
 
 
     trainer_kwargs = {
@@ -127,7 +131,7 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
     if args.model_type == 'task_prefix':
         if args.training_type == 'causal':
             print("Using causal training")
-            trainer = TaskPrefixCausalTrainer(**trainer_kwargs)
+            trainer = CausalTrainer(**trainer_kwargs)
         else:
             trainer = TaskPrefixTrainer(**trainer_kwargs)
     elif args.model_type == 'standard':
