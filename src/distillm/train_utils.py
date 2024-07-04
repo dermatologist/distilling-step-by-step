@@ -16,7 +16,7 @@
 import os
 import shutil
 import logging
-
+import torch
 from transformers import Seq2SeqTrainingArguments, Seq2SeqTrainer, TrainingArguments, Trainer
 from transformers import AutoModelForSeq2SeqLM, AutoModelForCausalLM
 from transformers import DataCollatorForSeq2Seq, DataCollatorForLanguageModeling
@@ -71,6 +71,9 @@ def train_and_evaluate(args, run, tokenizer, tokenized_datasets, compute_metrics
             prediction_loss_only=True,
             per_device_train_batch_size=args.batch_size,
             per_device_eval_batch_size=args.batch_size,
+            gradient_accumulation_steps=args.batch_size,
+            gradient_checkpointing=True,
+            fp16=torch.cuda.is_available()
         )
     else:
         training_args = Seq2SeqTrainingArguments(
